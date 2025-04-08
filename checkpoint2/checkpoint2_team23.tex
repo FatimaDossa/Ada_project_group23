@@ -1,1 +1,112 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{enumitem}
 
+\title{Technical Summary: Graph Mining Healthcare Approach: Analysis and Recommendation}
+\author{Fatima Dossa and Maira Khan \\ Group 23  \\ L3}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Problem and Contribution}
+
+\subsection*{Problem Addressed}
+The paper titled “Graph Mining Healthcare Approach: Analysis and Recommendation” addresses the challenge of enhancing predictive accuracy in healthcare applications, particularly in the context of healthcare recommendation systems. In healthcare, making accurate recommendations is crucial for improving patient outcomes, whether it involves suggesting the best course of treatment, predicting patient recovery, or identifying the most beneficial medical interventions. However, existing recommendation systems often fail to adequately address the complexity and nuances of medical data.\\ \\ Traditional clustering methods often fall short due to issues like data preparation requirements and sensitivity to outliers. In this study, the authors propose leveraging graph mining techniques to overcome these limitations and improve prediction outcomes.
+
+\subsection*{Main Contribution}
+The primary contribution of this study is the application of Frequent Subgraph Mining (FSM) and Discriminative Subgraph Mining (DSM) techniques to analyze patient data. By modeling patient symptoms and medical conditions as directed graphs, the study identifies recurring subgraph patterns associated with patient recovery outcomes. The findings indicate that DSM, in particular, offers higher predictive accuracy compared to FSM in forecasting patient recovery.
+
+\section{Algorithmic Description}
+
+The core algorithms in the paper are \textbf{Frequent Subgraph Mining (FSM)} and \textbf{Discriminative Subgraph Mining (DSM)}. Both techniques operate on patient event graphs constructed from the MIMIC dataset, where each node represents a medical event (like a lab test or procedure), and edges reflect the temporal sequence or co-occurrence of those events for a given patient.
+
+\subsection*{Input and Graph Representation}
+The input is a set of graphs $G = \{G_1, G_2, ..., G_n\}$, where each graph corresponds to a patient record. Nodes are labeled by event types, and edges represent the ordering or co-occurrence of events.
+
+Each graph is labeled as belonging to a particular outcome class (e.g., positive recovery or negative outcome), turning the mining task into a supervised learning problem.
+
+\subsection*{Frequent Subgraph Mining (FSM)}
+FSM identifies subgraphs that occur frequently across patient graphs, regardless of class label.
+
+\begin{itemize}
+    \item \textbf{Step 1:} Convert each patient record into a graph with events as nodes and edges as timestamps or logical flows.
+    \item \textbf{Step 2:} Use the \texttt{gSpan} algorithm to explore subgraphs through depth-first extensions.
+    \item \textbf{Step 3:} Record subgraphs whose frequency exceeds a predefined support threshold.
+\end{itemize}
+
+\textbf{gSpan}, in particular, avoids candidate generation by lexicographically ordering graphs and uses DFS codes to efficiently explore the search space.
+
+\subsection*{Discriminative Subgraph Mining (DSM)}
+DSM builds upon FSM by identifying subgraphs that best distinguish between outcome classes.
+
+\begin{itemize}
+    \item \textbf{Step 1:} Use FSM to generate a candidate list of subgraphs.
+    \item \textbf{Step 2:} For each subgraph, compute a \textit{discriminative score} based on its frequency in different classes.
+    \item \textbf{Step 3:} Select top-$k$ subgraphs with the highest discrimination, e.g., using g-index or mutual information.
+\end{itemize}
+
+These discriminative subgraphs are then used as features in a classification model, such as a decision tree or support vector machine.
+
+\subsection*{Example}
+Imagine two patient graphs:
+
+\vspace{0.3em}
+\begin{tabular}{ll}
+$G_1$ (Recovered): & [A] $\rightarrow$ [B] $\rightarrow$ [C] \\
+$G_2$ (Not Recovered): & [A] $\rightarrow$ [D] $\rightarrow$ [C]
+\end{tabular}
+
+\vspace{0.3em}
+FSM might identify subgraph [A] $\rightarrow$ [C] as frequent. DSM will note that [B] is more common in recovered cases and [D] in unrecovered ones, so [A] $\rightarrow$ [B] is a better discriminative feature.
+
+\subsection*{Intuition and Technical Complexity}
+\begin{itemize}
+    \item FSM helps detect patterns common across all patient records, which may not be useful for classification alone.
+    \item DSM filters these patterns to find only those predictive of recovery or decline.
+    \item The challenge lies in graph isomorphism checking and subgraph enumeration, which are computationally expensive (NP-complete problems).
+    \item The use of tools like \texttt{LEAP} helps to abstract graph construction and label matching from raw medical data, making the system scalable.
+\end{itemize}
+
+Overall, the algorithms are designed to balance coverage (via FSM) with class discrimination (via DSM) to build a powerful healthcare recommendation pipeline.
+
+\section{Comparison with Existing Approaches}
+
+Traditional clustering techniques in healthcare analytics often require extensive data preprocessing and are sensitive to outliers, which can compromise predictive accuracy. In contrast, the graph mining approach utilized in this study offers a more nuanced analysis by capturing complex relationships within patient data. The application of Discriminative Subgraph Mining (DSM), in particular, enhances predictive performance by focusing on subgraphs that are most indicative of patient outcomes, thereby providing a novel and effective alternative to conventional methods.\\ \\
+Additionally, there are several other existing approaches to medical recommendation systems as well. Collaborative filtering methods—such as those used in systems like CARE—struggle with data sparsity, scalability, and cold-start issues. Decision trees and random forests, while interpretable, often require a large number of trees for reliable predictions and suffer from high latency during inference. Markov models are limited in their ability to capture complex dependencies between actions, while neural networks, despite their predictive power, lack interpretability and require large, well-labeled datasets -making them less suitable for critical healthcare applications. \\ \\
+By avoiding the need for extensive parameter tuning or a priori knowledge, and by directly modeling action sequences through subgraph structures, our algorithm not only addresses these limitations but also offers a more scalable, interpretable, and clinically meaningful solution.
+
+\section{Data Structures and Techniques}
+
+The study employs several key data structures and techniques:
+\begin{itemize}
+\item \textbf{Graphs:} Used to model patient medical data, capturing the intricate relationships between symptoms and conditions.
+\item \textbf{Frequent Subgraph Mining (FSM):} Identifies common subgraph patterns across patient graphs.
+\item \textbf{Discriminative Subgraph Mining (DSM):} Extracts subgraphs that effectively differentiate between varying patient outcomes.
+\end{itemize}
+
+\section{Implementation Outlook}
+
+Implementing the proposed approach presents several technical challenges:
+\begin{itemize}
+\item \textbf{Data Transformation:} Converting unstructured patient records into structured graph representations requires meticulous data preprocessing.
+\item \textbf{Computational Complexity:} Subgraph mining, especially DSM, can be computationally intensive, necessitating efficient algorithms and possibly high-performance computing resources.
+\item \textbf{Scalability:} Handling large-scale patient datasets demands scalable solutions to maintain performance and accuracy.
+\item \textbf{Data Privacy:} Ensuring patient confidentiality and compliance with healthcare data regulations is paramount during data handling and processing.
+\end{itemize}
+
+\section{GitHub Repository Update}
+
+To align with Checkpoint 2 requirements, the following updates have been made to our project repository:
+\begin{itemize}
+\item \textbf{Checkpoint 2 Folder:} Added a new directory containing the LaTeX source files and the compiled PDF of this report.
+\item \textbf{README.md:} Updated documentation to reflect our enhanced understanding of the project, including a summary of the current report and insights gained.
+\item \textbf{Resources:} Referred to the MIMIC dataset and the primary paper for implementing and analyzing FSM and DSM techniques.
+\end{itemize}
+
+The repository remains organized and free from temporary or backup files, adhering to best practices for version control and collaborative development.
+
+\end{document}
