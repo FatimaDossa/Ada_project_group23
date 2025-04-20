@@ -18,13 +18,13 @@ This project is driven by our interest in healthcare applications and the opport
 - Analysis of predictive accuracy based on mined subgraphs  
 - Use of the MIMIC dataset for patient records
 
-## Checkpoint 3
+## Checkpoint 2
 - Completed technical summary and detailed report (available in `Checkpoint2/`)  
 - Updated this README to reflect project direction and insights gained  
 - Identified key implementation challenges including data transformation, computational complexity, and data privacy  
 - Repository remains clean and well-structured with no temporary or backup files
 
-## Checkpoint 4
+## Checkpoint 3
 - Successfully implemented both FSM and DSM algorithms
 - Validated results through multiple test cases and comparative evaluation
 - Generated a cleaned and structured dataset suitable for subgraph mining studies
