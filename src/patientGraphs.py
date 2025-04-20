@@ -6,7 +6,7 @@ def build_patient_graphs(df):
     R_class2 = []
 
     # Group by subject_id
-    for patient_id, group in df.groupby('subject_id'):
+    for subject_id, group in df.groupby('subject_id'):
         group = group.sort_values('sequence_num')  # ensure correct order
         mortality_label = group['mortality'].iloc[0]
 

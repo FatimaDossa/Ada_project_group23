@@ -30,3 +30,4 @@ def find_subgraphs(graphs):
                     subgraphs.append(component)
 
         return subgraphs
+    
