@@ -32,6 +32,18 @@ This project is driven by our interest in healthcare applications and the opport
 - Continued refining visualization and result interpretation
 - Repository remains clean and well-organized with updated documentation
 
+## Checkpoint 4
+- Conducted enhancements on the parameters and visualisations
+- Interpreted results: outputs with more meaningful impacts and conclusions
+- Generated a more detailed and accurate recommendation system
+- Optimized algorithm performance by improving the efficiency and scalability of the algorithms used
+- Provided recommendations for further exploration, considering potential improvements or extensions to the current study
+- Completed the final implementation overview, summary, and detailed report (available in Checkpoint4/)
+- Repository remains clean and well-organized with updated documentation
+  
+## Presentation Link 
+https://youtu.be/J0bvtKbpjhg
+
 ## Running Instructions
 - Navigate to the src/ folder
 - Run main.py
